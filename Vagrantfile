@@ -5,14 +5,13 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "maxx/ubuntu16"
 
   config.vm.network "forwarded_port", guest: 80, host: 8888
   config.vm.network "forwarded_port", guest: 8000, host: 8000
 
   #nearby folder on host for novice users to appropriate folder on guest for Archivematica use.
-  config.vm.synced_folder "archivematica_data/", "/archivematica_transfers", id: "archivematica-transfers",
-  mount_options: ["uid=333","gid=333","dmode=777","fmode=777"]
+
 
   #good values for testing, may need more with content
   config.vm.provider "virtualbox" do |v|
@@ -21,6 +20,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
      v.cpus = 4
      v.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
      v.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
+     config.vm.synced_folder "archivematica_data/", "/archivematica_transfers", id: "archivematica-transfers",
+                             mount_options: ["uid=333","gid=333","dmode=777","fmode=777"]
+  end
+
+  config.vm.provider "hyperv" do |hv|
+    hv.vmname = "archivematica_1.6"
+    hv.memory = 4096
+    hv.cpus = 4
+    config.vm.synced_folder "archivematica_data/", "/archivematica_transfers", id: "archivematica-transfers",
+                            mount_options: ["uid=333","gid=333","dir_mode=0777","file_mode=0777"]
   end
 
   config.vm.define :Archivematica_1_6 do |t|

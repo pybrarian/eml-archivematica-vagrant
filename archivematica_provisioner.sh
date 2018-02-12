@@ -8,8 +8,8 @@
 #reverting to trusty because archivematica on xenial is broken
 wget -O - https://packages.archivematica.org/1.6.x/key.asc | sudo apt-key add -
 cat << EOF | sudo tee -a /etc/apt/sources.list
-deb [arch=amd64] http://packages.archivematica.org/1.6.x/ubuntu trusty main
-deb [arch=amd64] http://packages.archivematica.org/1.6.x/ubuntu-externals trusty main
+deb [arch=amd64] http://packages.archivematica.org/1.6.x/ubuntu xenial main
+deb [arch=amd64] http://packages.archivematica.org/1.6.x/ubuntu-externals xenial main
 EOF
 
 #STEP 2 - Add Elasticsearch package source
